@@ -4,8 +4,8 @@ use std::{fs, io::Result};
 pub fn parse(input: &str) -> impl Iterator<Item = u32> + '_ {
     input
         .split("\n\n")
-        .map(|elf_bag| {
-            elf_bag
+        .map(|money_bag| {
+            money_bag
                 .lines()
                 .map(|v| v.parse::<u32>().unwrap())
                 .sum::<u32>()
