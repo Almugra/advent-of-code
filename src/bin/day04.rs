@@ -1,7 +1,7 @@
-use std::{fs, io};
+use std::io;
 
 fn main() -> io::Result<()> {
-    let file = fs::read_to_string("./inputs/i4.txt").unwrap();
+    let file = include_str!("../../inputs/i4.txt");
     let start = std::time::Instant::now();
     let val = file.lines().map(|pair| {
         pair.split_terminator(&['-', ','][..])
@@ -9,17 +9,15 @@ fn main() -> io::Result<()> {
             .collect()
     });
 
-    println!(
-        "Part 1 = {}",
-        val.clone()
-            .map(|a: Vec<_>| (a[0] <= a[2] && a[1] >= a[3] || a[0] >= a[2] && a[1] <= a[3]) as u32)
-            .sum::<u32>()
-    );
-    println!(
-        "Part 2 = {}",
-        val.map(|a| (a[0] <= a[3] && a[2] <= a[1]) as u32)
-            .sum::<u32>()
-    );
+    let res: (u32, u32) = val.fold((0, 0), |(acc1, acc2), a: Vec<u32>| {
+        let x = (a[0] <= a[2] && a[1] >= a[3] || a[0] >= a[2] && a[1] <= a[3]) as u32;
+        let y = (a[0] <= a[3] && a[2] <= a[1]) as u32;
+        (acc1 + x, acc2 + y)
+    });
+
+    println!("Part 1 = {}", res.0);
+    println!("Part 2 = {}", res.1);
+
     println!("time: {:?}", start.elapsed());
     Ok(())
 }
