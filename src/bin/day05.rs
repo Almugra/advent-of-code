@@ -1,15 +1,5 @@
 use std::io;
 
-const INPUT: &str = "    [D]    
-[N] [C]    
-[Z] [M] [P]
- 1   2   3 
-
-move 1 from 2 to 1
-move 3 from 1 to 3
-move 2 from 2 to 1
-move 1 from 1 to 2";
-
 fn main() -> io::Result<()> {
     let file = include_str!("../../inputs/i5.txt");
     let start = std::time::Instant::now();
@@ -28,9 +18,14 @@ fn main() -> io::Result<()> {
             .filter_map(|char| char.parse::<usize>().ok())
             .collect();
 
-        (1..=moves[0]).for_each(|_| {
+        //(1..=moves[0]).for_each(|_| {
+        //    let pop = vec[moves[1] - 1].pop().unwrap();
+        //    vec[moves[2] - 1].push(pop);
+        //});
+        (0..moves[0]).for_each(|index| {
             let pop = vec[moves[1] - 1].pop().unwrap();
-            vec[moves[2] - 1].push(pop);
+            let len = vec[moves[2] - 1].len();
+            vec[moves[2] - 1].insert(len - index, pop);
         });
     });
     for v in vec.iter() {
